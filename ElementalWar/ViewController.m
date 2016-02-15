@@ -278,4 +278,6 @@ NSNumber *emptyArray;
 }
 
 
+- (IBAction)powerUpButton1:(id)sender {
+}
 @end
