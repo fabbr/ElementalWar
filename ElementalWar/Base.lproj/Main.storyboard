@@ -172,6 +172,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPO-7W-ETA">
                                 <rect key="frame" x="317" y="170" width="31" height="30"/>
                                 <state key="normal" title="PU 1"/>
+                                <connections>
+                                    <action selector="powerUpButton1:" destination="U0N-lm-GvO" eventType="touchUpInside" id="Jsv-1f-28G"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uob-VI-0t1">
                                 <rect key="frame" x="317" y="208" width="31" height="30"/>

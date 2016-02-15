@@ -34,5 +34,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *aiCardWarLabel;
 @property (weak, nonatomic) IBOutlet UILabel *playerCardWarLabel;
 
+
+//Power-Up Buttons
+- (IBAction)powerUpButton1:(id)sender;
+
 @end
 
