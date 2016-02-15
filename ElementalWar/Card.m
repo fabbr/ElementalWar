@@ -16,7 +16,7 @@
 
 - (id)initWithSuit:(Element)element value:(int)value
 {
-    NSAssert(value >= CardAce && value <= CardKing, @"Invalid card value");
+    NSAssert(value >= CardAce && value <= CardKing, @"Invalid card value"); //testing all the values To be removed before release 
     
     if ((self = [super init]))
     {
