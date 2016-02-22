@@ -170,24 +170,36 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPO-7W-ETA">
-                                <rect key="frame" x="317" y="170" width="31" height="30"/>
-                                <state key="normal" title="PU 1"/>
+                                <rect key="frame" x="300" y="170" width="65" height="30"/>
+                                <state key="normal" title="PU 1 - SP"/>
                                 <connections>
-                                    <action selector="powerUpButton1:" destination="U0N-lm-GvO" eventType="touchUpInside" id="Jsv-1f-28G"/>
+                                    <action selector="powerUp1SmallPackageButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="zmn-bn-h5M"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uob-VI-0t1">
-                                <rect key="frame" x="317" y="208" width="31" height="30"/>
-                                <state key="normal" title="PU 1"/>
+                                <rect key="frame" x="299" y="208" width="68" height="30"/>
+                                <state key="normal" title="PU 2 - NE"/>
+                                <connections>
+                                    <action selector="powerUp2NegateElementsButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="iuC-sE-6B4"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Skm-De-Hyh">
-                                <rect key="frame" x="317" y="242" width="31" height="30"/>
-                                <state key="normal" title="PU 1"/>
+                                <rect key="frame" x="295" y="242" width="76" height="30"/>
+                                <state key="normal" title="PU 3 - WM"/>
+                                <connections>
+                                    <action selector="powerUp3WarMachineButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="cv5-Be-dzn"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoe-4C-TfW">
                                 <rect key="frame" x="317" y="280" width="31" height="30"/>
                                 <state key="normal" title="PU 1"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r61-G5-FBO">
+                                <rect key="frame" x="44" y="104" width="304" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -205,6 +217,10 @@
                         <outlet property="playerCardWarLabel" destination="zTJ-aa-rhi" id="JMs-qz-z08"/>
                         <outlet property="playerDeckCountLabel" destination="75J-Gk-eiy" id="6Nq-Wy-g5L"/>
                         <outlet property="playerDiscardPileLabel" destination="GSW-cj-NSJ" id="zb3-Vm-EbZ"/>
+                        <outlet property="powerUp1SmallPackageButtonOutlet" destination="UPO-7W-ETA" id="G3A-8d-83C"/>
+                        <outlet property="powerUp2NegateElementsOutlet" destination="uob-VI-0t1" id="Zcn-Dh-tDH"/>
+                        <outlet property="powerUp3WarMachineOutlet" destination="Skm-De-Hyh" id="fMv-Vh-Vzm"/>
+                        <outlet property="warLabel" destination="r61-G5-FBO" id="M9o-H8-6IV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3N-Xm-rFm" userLabel="First Responder" sceneMemberID="firstResponder"/>

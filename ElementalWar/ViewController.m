@@ -24,6 +24,12 @@ NSMutableArray *playerDiscardPile;
 NSMutableArray *aiDiscardPile;
 NSNumber *emptyArray;
 
+//set up the power ups
+BOOL pu1SmallPackageInt;
+BOOL pu2NegateElementsInt;
+BOOL pu4ReconInt;
+#define on true
+#define off false
 
 #define AICARD 0
 #define PLAYERCARD 1
@@ -54,17 +60,29 @@ NSNumber *emptyArray;
     // Dispose of any resources that can be recreated.
 }
 
-#pragma gameLogic
-
+#pragma mark - gameLogic
 
 
 - (void) fillPlayersHand{
 
     for (int i = 0; i < playerHand.count ; i++) {
-        if ([playerHand objectAtIndex:i] == emptyArray) {
+       // [self checkForGameOver];
+        if ([playerHand objectAtIndex:i] == emptyArray && playerStack.count > 0) {
             [playerHand replaceObjectAtIndex:i withObject:[playerStack lastObject]];
             [playerStack removeLastObject];
         }
+        
+    }
+}
+
+-(void)checkForGameOver{
+    if (playerStack.count == 0 && playerDiscardPile > 0) {
+        playerStack = [NSMutableArray arrayWithArray:playerDiscardPile];
+        [playerDiscardPile removeAllObjects];
+        NSLog(@"end of stack");
+        NSLog(@"player Stack count is %lu", (unsigned long)playerStack.count);
+    }else if (playerStack.count == 0 && playerDiscardPile.count == 0 ){
+        NSLog(@"GAME OVER, YOU LOST");
     }
 }
 
@@ -97,8 +115,8 @@ NSNumber *emptyArray;
     self.playerDiscardPileLabel.text = [NSString stringWithFormat:@"%ld", playerDiscardPile.count];
     self.aiDiscardPileLabel.text = [NSString stringWithFormat:@"%ld", aiDiscardPile.count];
     self.inPlayCounterLabel.text = [NSString stringWithFormat:@"%ld", inPlay.count];
+   
     //Update Player Cards
-    
     Card *card1 = [playerHand objectAtIndex:0];
     [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
     
@@ -120,25 +138,6 @@ NSNumber *emptyArray;
 }
 
 - (IBAction)cardSelection:(id)sender {
-  //  [self updateGUI];
-    
-//    switch ([sender tag]) {
-//        case 0:
-//            {//NSLog(@"Card 1");
-//                [self checkForWar:sender];
-//            }
-//            break;
-//        case 1:
-//           // NSLog(@"Card 2");
-//                [self checkForWar:sender];
-//            break;
-//        case 2:
-//          //  NSLog(@"Card 3");
-//            break;
-//        default:
-//            NSLog(@"Something really wrong happened");
-//            break;
-//    }
     [self checkForWar:sender];
     [self fillPlayersHand];
     [self updateGUI];
@@ -146,6 +145,9 @@ NSNumber *emptyArray;
 
 - (IBAction)nextRoundButton:(id)sender {
    
+    //erase War Indicator Label
+    [self.warLabel setText:@""];
+    
     //reset table cards
     [inPlay removeAllObjects];
     [self.aiCardTestLabel setText:@"xxx"];
@@ -184,22 +186,99 @@ NSNumber *emptyArray;
     Card *cardAi = [inPlay objectAtIndex:AICARD];
     Card *cardPlayer = [inPlay objectAtIndex:PLAYERCARD];
     
+    [self checkWinner:cardAi :cardPlayer];
     
-    if (cardAi.value > cardPlayer.value) { //ai Wins
-        [aiDiscardPile addObjectsFromArray:inPlay];
+}
+
+
+-(void)checkWinner:(Card*)cardAi : (Card*)cardPlayer{
+    
+
+    int cardAiTotal = cardAi.value;
+    int cardPlayerTotal = cardPlayer.value;
+    
+    //check if Power Up 2 Negate the Elements is active or not to check the Bonuses
+    
+    if (!pu2NegateElementsInt) {
+        
+        //check Elemental Bonuses
+        switch ([cardAi element]) {
+            case elementFire:{
+                NSLog(@"0. FIRE");
+                if (cardPlayer.element == elementEarth) cardAiTotal += ELEMENTBONUS;
+                if (cardPlayer.element == elementWater) cardAiTotal -= ELEMENTBONUS;
+            }
+                break;
+            case elementEarth:{
+                NSLog(@"1. EARTH");
+                if (cardPlayer.element == elementWind) cardAiTotal += ELEMENTBONUS;
+                if (cardPlayer.element == elementFire) cardAiTotal -= ELEMENTBONUS;
+            }
+                break;
+            case elementWater:{
+                NSLog(@"2. WATER");
+                if (cardPlayer.element == elementFire) cardAiTotal += ELEMENTBONUS;
+                if (cardPlayer.element == elementWind) cardAiTotal -= ELEMENTBONUS;
+            }
+                break;
+            case elementWind:{
+                NSLog(@"3. WIND");
+                if (cardPlayer.element == elementWater) cardAiTotal += ELEMENTBONUS;
+                if (cardPlayer.element == elementEarth) cardAiTotal -= ELEMENTBONUS;
+            }
+                break;
+                break;    //maybe an extra break? Please check.
+            default:
+                NSLog(@"Something really wrong happened");
+                break;
+        }
+    } //end of if for the pu2ElementsInt
+    else{
+        NSLog(@"Negate Elements ON");
+        pu2NegateElementsInt = off;
+    }
+    
+    
+    
+    //WAR RESULTS AFTER BONUSES:
+    NSLog(@"card AI total: %d", cardAiTotal);
+    NSLog(@"card Player total: %d", cardPlayerTotal);
+
+    
+    //Small Package PowerUp Inverts the values so the smaller will win
+    if (pu1SmallPackageInt) {
+        NSLog(@"Small Package value change activated");
+        int temp;
+        temp = cardPlayerTotal;
+        cardPlayerTotal = cardAiTotal;
+        cardAiTotal = temp;
+        pu1SmallPackageInt = off;
+    }
+    
+    
+    
+    //Who won and what to do with the inPlay Cards:
+    if (cardAiTotal > cardPlayerTotal){ //ai Wins
         NSLog(@"ai Wins");
-    }
-    else if (cardAi.value < cardPlayer.value){ //Player Wins
+        [aiDiscardPile addObjectsFromArray:inPlay];
+    }else if (cardAiTotal < cardPlayerTotal){//Player Wins
+        NSLog(@"Player Wins");
         [playerDiscardPile addObjectsFromArray:inPlay];
-        NSLog(@"Player wins");
-    }
-    else{ // WAR
-        //start war if cards have the same value
+    }else{//WAR
         [self war];
     }
+
+    
+    
+    
+    
+    
 }
 
 -(void) war{
+    
+    //indicate the war happened
+    [self.warLabel setText:@"WAR!!!"];
     
     //get 4 cards from ai Stack
     for (int i=0; i<4; i++) {
@@ -218,66 +297,98 @@ NSNumber *emptyArray;
     //print labels
      [self.aiCardWarLabel setText:[NSString stringWithFormat:@"%d of %d", cardAi.value, cardAi.element]];
      [self.playerCardWarLabel setText:[NSString stringWithFormat:@"%d of %d", cardPlayer.value, cardPlayer.element]];
+
+    //check for winner or War
+    [self checkWinner:cardAi :cardPlayer];
     
-    //check element
-    
-    int cardAiTotal = cardAi.value;
-    int cardPlayerTotal = cardPlayer.value;
-
-
-    //check Bonuses
-    
-    switch ([cardAi element]) {
-        case elementFire:{
-            NSLog(@"0. FIRE");
-
-            if (cardPlayer.element == elementEarth) cardAiTotal += ELEMENTBONUS;
-            if (cardPlayer.element == elementWater) cardAiTotal -= ELEMENTBONUS;
-        }
-            break;
-        case elementEarth:{
-            NSLog(@"1. EARTH");
-
-            if (cardPlayer.element == elementWind) cardAiTotal += ELEMENTBONUS;
-            if (cardPlayer.element == elementFire) cardAiTotal -= ELEMENTBONUS;
-            }
-            break;
-        case elementWater:{
-            NSLog(@"2. WATER");
-            
-            if (cardPlayer.element == elementFire) cardAiTotal += ELEMENTBONUS;
-            if (cardPlayer.element == elementWind) cardAiTotal -= ELEMENTBONUS;
-        }
-            break;
-        case elementWind:{
-            NSLog(@"3. WIND");
-
-            if (cardPlayer.element == elementWater) cardAiTotal += ELEMENTBONUS;
-            if (cardPlayer.element == elementEarth) cardAiTotal -= ELEMENTBONUS;
-        }
-            break;
-
-            break;
-        default:
-            NSLog(@"Something really wrong happened");
-            break;
-    }
-
-//WAR RESULTS AFTER BONUSES:
-    NSLog(@"WAR card AI: %d", cardAiTotal);
-    NSLog(@"WAR card Player: %d", cardPlayerTotal);
-    
-    
-    //Redistribute cards
-    if (cardAiTotal > cardPlayerTotal){ //ai Wins
-        [aiDiscardPile addObjectsFromArray:inPlay];
-    }else{//Player Wins
-        [playerDiscardPile addObjectsFromArray:inPlay];
-    }
+//OLD WAR
+//    //check element
+//    int cardAiTotal = cardAi.value;
+//    int cardPlayerTotal = cardPlayer.value;
+//
+//
+//    //check Bonuses
+//    
+//    switch ([cardAi element]) {
+//        case elementFire:{
+//            NSLog(@"0. FIRE");
+//            if (cardPlayer.element == elementEarth) cardAiTotal += ELEMENTBONUS;
+//            if (cardPlayer.element == elementWater) cardAiTotal -= ELEMENTBONUS;
+//        }
+//            break;
+//        case elementEarth:{
+//            NSLog(@"1. EARTH");
+//            if (cardPlayer.element == elementWind) cardAiTotal += ELEMENTBONUS;
+//            if (cardPlayer.element == elementFire) cardAiTotal -= ELEMENTBONUS;
+//            }
+//            break;
+//        case elementWater:{
+//            NSLog(@"2. WATER");
+//            if (cardPlayer.element == elementFire) cardAiTotal += ELEMENTBONUS;
+//            if (cardPlayer.element == elementWind) cardAiTotal -= ELEMENTBONUS;
+//        }
+//            break;
+//        case elementWind:{
+//            NSLog(@"3. WIND");
+//            if (cardPlayer.element == elementWater) cardAiTotal += ELEMENTBONUS;
+//            if (cardPlayer.element == elementEarth) cardAiTotal -= ELEMENTBONUS;
+//        }
+//            break;
+//
+//            break;    //maybe an extra break? Please check.
+//        default:
+//            NSLog(@"Something really wrong happened");
+//            break;
+//    }
+//
+//    //WAR RESULTS AFTER BONUSES:
+//    NSLog(@"WAR card AI: %d", cardAiTotal);
+//    NSLog(@"WAR card Player: %d", cardPlayerTotal);
+//    
+//    
+//    //Redistribute cards
+//    if (cardAiTotal > cardPlayerTotal){ //ai Wins
+//        [aiDiscardPile addObjectsFromArray:inPlay];
+//    }else{//Player Wins
+//        [playerDiscardPile addObjectsFromArray:inPlay];
+//    }
     
 }
 
 
-- (IBAction)powerUpButton1:(id)sender {
+- (IBAction)powerUp1SmallPackageButton:(id)sender {
+    
+    //Change War Label
+    [self.warLabel setText:@"SmallPackage Activated"];
+    
+    pu1SmallPackageInt = on;
+    [self.powerUp1SmallPackageButtonOutlet setEnabled:false];
+    
 }
+- (IBAction)powerUp2NegateElementsButton:(id)sender {
+    //Change War Label
+    [self.warLabel setText:@"Negate Elements Activated"];
+
+    pu2NegateElementsInt = on;
+    [self.powerUp2NegateElementsOutlet setEnabled:false];
+}
+
+
+
+- (IBAction)powerUp3WarMachineButton:(id)sender {
+    //Change War Label
+    [self.warLabel setText:@"WarMachine Activated"];
+    
+    //get 3 cards from both Stacks
+    for (int i=0; i<3; i++) {
+        [inPlay addObject:[aiStack lastObject]];
+        [aiStack removeLastObject];
+        [inPlay addObject:[playerStack lastObject]];
+        [playerStack removeLastObject];
+    }
+    [self. powerUp3WarMachineOutlet setEnabled:false];
+}
+
+
+
 @end
