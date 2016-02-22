@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *playerCardTestLabel;
 @property (weak, nonatomic) IBOutlet UILabel *playerDiscardPileLabel;
 @property (weak, nonatomic) IBOutlet UILabel *aiDiscardPileLabel;
+@property (weak, nonatomic) IBOutlet UILabel *warLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *inPlayCounterLabel;
 @property (weak, nonatomic) IBOutlet UILabel *aiCardWarLabel;
@@ -36,7 +37,14 @@
 
 
 //Power-Up Buttons
-- (IBAction)powerUpButton1:(id)sender;
+- (IBAction)powerUp1SmallPackageButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *powerUp1SmallPackageButtonOutlet;
+- (IBAction)powerUp2NegateElementsButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *powerUp2NegateElementsOutlet;
+- (IBAction)powerUp3WarMachineButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *powerUp3WarMachineOutlet;
+
+
 
 @end
 
