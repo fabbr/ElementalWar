@@ -190,21 +190,45 @@
                                     <action selector="powerUp3WarMachineButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="cv5-Be-dzn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoe-4C-TfW">
-                                <rect key="frame" x="317" y="280" width="31" height="30"/>
-                                <state key="normal" title="PU 1"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r61-G5-FBO">
                                 <rect key="frame" x="44" y="104" width="304" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Card 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BTL-cD-Xqc">
+                                <rect key="frame" x="108" y="94" width="49" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Card 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zHo-Ip-xki">
+                                <rect key="frame" x="190" y="94" width="51" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Card 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZM-t5-cn0">
+                                <rect key="frame" x="279" y="94" width="52" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoe-4C-TfW">
+                                <rect key="frame" x="298" y="271" width="69" height="30"/>
+                                <state key="normal" title="PU 4 - RN"/>
+                                <connections>
+                                    <action selector="powerUp3ReconButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="frC-yE-iNG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="aiCardLabel1" destination="BTL-cD-Xqc" id="Hc5-Pd-OTc"/>
+                        <outlet property="aiCardLabel2" destination="zHo-Ip-xki" id="bod-dT-STZ"/>
+                        <outlet property="aiCardLabel3" destination="iZM-t5-cn0" id="E1i-IO-noO"/>
                         <outlet property="aiCardTestLabel" destination="Oxz-0t-8VF" id="iCt-rs-caS"/>
                         <outlet property="aiCardWarLabel" destination="Go7-vq-Kq9" id="kBP-HP-rPY"/>
                         <outlet property="aiDeckCountLabel" destination="GvY-QI-dRv" id="wlb-zn-CFk"/>
@@ -225,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3N-Xm-rFm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1173.5" y="394.5"/>
+            <point key="canvasLocation" x="1251.5" y="283.5"/>
         </scene>
     </scenes>
 </document>
