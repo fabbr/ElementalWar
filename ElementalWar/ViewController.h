@@ -43,7 +43,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *powerUp2NegateElementsOutlet;
 - (IBAction)powerUp3WarMachineButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *powerUp3WarMachineOutlet;
-- (IBAction)powerUp3ReconButton:(id)sender;
+- (IBAction)powerUp4ReconButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *powerUp4ReconOutlet;
 
 //Ai Cards Labels
 @property (weak, nonatomic) IBOutlet UILabel *aiCardLabel1;

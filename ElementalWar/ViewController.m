@@ -130,6 +130,12 @@ BOOL pu4ReconInt;
    
 
     
+    //update Ai Card Labels
+    [self.aiCardLabel1 setText:@"Card 1"];
+    [self.aiCardLabel2 setText:@"Card 2"];
+    [self.aiCardLabel3 setText:@"Card 3"];
+
+    
 
     
     //update the inPlay Labels
@@ -361,7 +367,11 @@ BOOL pu4ReconInt;
 
 
 
-- (IBAction)powerUp3ReconButton:(id)sender {
+- (IBAction)powerUp4ReconButton:(id)sender {
+    
+    if (aiStack.count < 3) { //mainly to refill the player stack
+        [self checkForGameOver];
+    }
     
     NSMutableArray *hand = [[NSMutableArray alloc] init];    //array with number os cards left on the AiStack
     for (NSUInteger y = 0; (int)aiStack.count > y && y < 3; y++) {
@@ -396,5 +406,6 @@ BOOL pu4ReconInt;
         }
     }
     
+    [self.powerUp4ReconOutlet setEnabled:FALSE]; //use only once
 }
 @end

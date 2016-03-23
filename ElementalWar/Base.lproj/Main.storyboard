@@ -218,7 +218,7 @@
                                 <rect key="frame" x="298" y="271" width="69" height="30"/>
                                 <state key="normal" title="PU 4 - RN"/>
                                 <connections>
-                                    <action selector="powerUp3ReconButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="frC-yE-iNG"/>
+                                    <action selector="powerUp4ReconButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="vRu-oW-ugW"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -244,6 +244,7 @@
                         <outlet property="powerUp1SmallPackageButtonOutlet" destination="UPO-7W-ETA" id="G3A-8d-83C"/>
                         <outlet property="powerUp2NegateElementsOutlet" destination="uob-VI-0t1" id="Zcn-Dh-tDH"/>
                         <outlet property="powerUp3WarMachineOutlet" destination="Skm-De-Hyh" id="fMv-Vh-Vzm"/>
+                        <outlet property="powerUp4ReconOutlet" destination="eoe-4C-TfW" id="a6V-4k-p3A"/>
                         <outlet property="warLabel" destination="r61-G5-FBO" id="M9o-H8-6IV"/>
                     </connections>
                 </viewController>
