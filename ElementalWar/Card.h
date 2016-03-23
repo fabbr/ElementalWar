@@ -20,7 +20,7 @@ Element;
 #define CardAce   1
 #define CardJack  11
 #define CardQueen 12
-#define CardKing  13
+#define CardKing  2 //**** change back to 13 before final version ****
 
 @interface Card : NSObject
 

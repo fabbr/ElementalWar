@@ -66,7 +66,7 @@ BOOL pu4ReconInt;
 - (void) fillPlayersHand{
 
     for (int i = 0; i < playerHand.count ; i++) {
-       // [self checkForGameOver];
+        [self checkForGameOver];
         if ([playerHand objectAtIndex:i] == emptyArray && playerStack.count > 0) {
             [playerHand replaceObjectAtIndex:i withObject:[playerStack lastObject]];
             [playerStack removeLastObject];
@@ -76,6 +76,7 @@ BOOL pu4ReconInt;
 }
 
 -(void)checkForGameOver{
+    //player side
     if (playerStack.count == 0 && playerDiscardPile > 0) {
         playerStack = [NSMutableArray arrayWithArray:playerDiscardPile];
         [playerDiscardPile removeAllObjects];
@@ -84,6 +85,17 @@ BOOL pu4ReconInt;
     }else if (playerStack.count == 0 && playerDiscardPile.count == 0 ){
         NSLog(@"GAME OVER, YOU LOST");
     }
+    
+    //ai Side
+    if (aiStack.count == 0 && aiDiscardPile >0) {
+        aiStack = [NSMutableArray arrayWithArray:aiDiscardPile];
+        [aiDiscardPile removeAllObjects];
+        NSLog(@"end of ai Stack");
+    }else if (aiStack.count == 0 && aiDiscardPile.count == 0){
+        NSLog(@"GAME OVER, YOU WIN!");
+    }
+    
+    
 }
 
 
@@ -116,16 +128,15 @@ BOOL pu4ReconInt;
     self.aiDiscardPileLabel.text = [NSString stringWithFormat:@"%ld", aiDiscardPile.count];
     self.inPlayCounterLabel.text = [NSString stringWithFormat:@"%ld", inPlay.count];
    
-    //Update Player Cards
-    Card *card1 = [playerHand objectAtIndex:0];
-    [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
+
     
-    Card *card2 = [playerHand objectAtIndex:1];
-    [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %d", card2.value, card2.element] forState:UIControlStateNormal];
-   
-    Card *card3 = [playerHand objectAtIndex:2];
-    [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %d", card3.value, card3.element] forState:UIControlStateNormal];
+    //update Ai Card Labels
+    [self.aiCardLabel1 setText:@"Card 1"];
+    [self.aiCardLabel2 setText:@"Card 2"];
+    [self.aiCardLabel3 setText:@"Card 3"];
+
     
+
     
     //update the inPlay Labels
     if (inPlay.count) {
@@ -161,6 +172,15 @@ BOOL pu4ReconInt;
     [self.playerCard2 setEnabled:true];
     [self.playerCard3 setEnabled:true];
 
+    //Update Player Cards
+    Card *card1 = [playerHand objectAtIndex:0];
+    [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
+    
+    Card *card2 = [playerHand objectAtIndex:1];
+    [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %d", card2.value, card2.element] forState:UIControlStateNormal];
+    
+    Card *card3 = [playerHand objectAtIndex:2];
+    [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %d", card3.value, card3.element] forState:UIControlStateNormal];
 
     
 }
@@ -178,8 +198,13 @@ BOOL pu4ReconInt;
     [playerHand replaceObjectAtIndex:button.tag withObject:emptyArray];
     
     
-    [button setTitle:@"Flipped" forState:UIControlStateDisabled];
-    [button setEnabled:FALSE];
+    [button setTitle:@"EMPTY" forState:UIControlStateNormal];
+
+    //disable all the cards
+    [self.playerCard1 setEnabled:false];
+    [self.playerCard2 setEnabled:false];
+    [self.playerCard3 setEnabled:false];
+    
     
     
     //check for War Conditions & add cards to Stacks
@@ -282,6 +307,7 @@ BOOL pu4ReconInt;
     
     //get 4 cards from ai Stack
     for (int i=0; i<4; i++) {
+        [self checkForGameOver];
         [inPlay addObject:[aiStack lastObject]];
         [aiStack removeLastObject];
     }
@@ -289,6 +315,7 @@ BOOL pu4ReconInt;
     
     //get 4 cards from Player Stack
     for (int i=0; i<4; i++) {
+    [self checkForGameOver];
     [inPlay addObject:[playerStack lastObject]];
     [playerStack removeLastObject];
     }
@@ -300,58 +327,7 @@ BOOL pu4ReconInt;
 
     //check for winner or War
     [self checkWinner:cardAi :cardPlayer];
-    
-//OLD WAR
-//    //check element
-//    int cardAiTotal = cardAi.value;
-//    int cardPlayerTotal = cardPlayer.value;
-//
-//
-//    //check Bonuses
-//    
-//    switch ([cardAi element]) {
-//        case elementFire:{
-//            NSLog(@"0. FIRE");
-//            if (cardPlayer.element == elementEarth) cardAiTotal += ELEMENTBONUS;
-//            if (cardPlayer.element == elementWater) cardAiTotal -= ELEMENTBONUS;
-//        }
-//            break;
-//        case elementEarth:{
-//            NSLog(@"1. EARTH");
-//            if (cardPlayer.element == elementWind) cardAiTotal += ELEMENTBONUS;
-//            if (cardPlayer.element == elementFire) cardAiTotal -= ELEMENTBONUS;
-//            }
-//            break;
-//        case elementWater:{
-//            NSLog(@"2. WATER");
-//            if (cardPlayer.element == elementFire) cardAiTotal += ELEMENTBONUS;
-//            if (cardPlayer.element == elementWind) cardAiTotal -= ELEMENTBONUS;
-//        }
-//            break;
-//        case elementWind:{
-//            NSLog(@"3. WIND");
-//            if (cardPlayer.element == elementWater) cardAiTotal += ELEMENTBONUS;
-//            if (cardPlayer.element == elementEarth) cardAiTotal -= ELEMENTBONUS;
-//        }
-//            break;
-//
-//            break;    //maybe an extra break? Please check.
-//        default:
-//            NSLog(@"Something really wrong happened");
-//            break;
-//    }
-//
-//    //WAR RESULTS AFTER BONUSES:
-//    NSLog(@"WAR card AI: %d", cardAiTotal);
-//    NSLog(@"WAR card Player: %d", cardPlayerTotal);
-//    
-//    
-//    //Redistribute cards
-//    if (cardAiTotal > cardPlayerTotal){ //ai Wins
-//        [aiDiscardPile addObjectsFromArray:inPlay];
-//    }else{//Player Wins
-//        [playerDiscardPile addObjectsFromArray:inPlay];
-//    }
+
     
 }
 
@@ -391,4 +367,45 @@ BOOL pu4ReconInt;
 
 
 
+- (IBAction)powerUp4ReconButton:(id)sender {
+    
+    if (aiStack.count < 3) { //mainly to refill the player stack
+        [self checkForGameOver];
+    }
+    
+    NSMutableArray *hand = [[NSMutableArray alloc] init];    //array with number os cards left on the AiStack
+    for (NSUInteger y = 0; (int)aiStack.count > y && y < 3; y++) {
+        [hand addObject:@(y + 1)];    //add number of cards to the array
+    }
+    
+    int inicitalHandCount = (int)hand.count;
+
+    for (int i = 0; i < inicitalHandCount; i++){
+       
+        NSInteger index = arc4random() % (NSUInteger)(hand.count);  //random number from hand array
+        int object = [(NSNumber *)[hand objectAtIndex:index]intValue]; //assign that number to object
+        [hand removeObjectAtIndex:index]; //remove number from hand array
+        
+        
+        
+        
+        int x = (int)aiStack.count - i -1;  //getting the top cards from the stacks
+        Card *card1 = [aiStack objectAtIndex:x];
+        switch (object) {  //since object was random it will randomly pick a label to update the AiCard
+            case 1:
+                [self.aiCardLabel1 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                break;
+            case 2:
+                [self.aiCardLabel2 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                break;
+            case 3:
+                [self.aiCardLabel3 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    [self.powerUp4ReconOutlet setEnabled:FALSE]; //use only once
+}
 @end
