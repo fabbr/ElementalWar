@@ -80,11 +80,20 @@ BOOL pu4ReconInt;
     if (playerStack.count == 0 && playerDiscardPile > 0) {
         playerStack = [NSMutableArray arrayWithArray:playerDiscardPile];
         [playerDiscardPile removeAllObjects];
-        NSLog(@"end of stack");
-        NSLog(@"player Stack count is %lu", (unsigned long)playerStack.count);
-    }else if (playerStack.count == 0 && playerDiscardPile.count == 0 ){
-        NSLog(@"GAME OVER, YOU LOST");
+//        NSLog(@"end of stack");
+//        NSLog(@"player Stack count is %lu", (unsigned long)playerStack.count);
+//        NSLog(@"player Discard count is %lu", (unsigned long)playerDiscardPile.count);
+
     }
+    
+//    Conditions for the Player to Lose the Game - Note that the PlayerHand Array is never empty so we have to compare all the 3 objects to the "emptyArray" NSNumber set previously
+        if ([playerStack count] == 0 &&
+            [playerDiscardPile count] == 0 &&
+            [playerHand objectAtIndex:0] == emptyArray &&
+            [playerHand objectAtIndex:1] == emptyArray &&
+            [playerHand objectAtIndex:2] == emptyArray){
+            NSLog(@"💥💥💥💥💥 GAME OVER, YOU LOST  💥💥💥💥💥");
+        }
     
     //ai Side
     if (aiStack.count == 0 && aiDiscardPile >0) {
@@ -142,8 +151,8 @@ BOOL pu4ReconInt;
     }
 }
 
-- (IBAction)cardSelection:(id)sender {
-    [self checkForWar:sender];
+- (IBAction)cardSelection:(id)sender {  //Selector of the card
+    [self checkForWar:sender];          //Send the card Button ID to the CheckForWar Class
     [self fillPlayersHand];
     [self updateGUI];
 }
@@ -160,12 +169,13 @@ BOOL pu4ReconInt;
     
     [self updateGUI];
     
-    //reactivate the Player card buttons
+    //Check for GG
+    [self checkForGameOver];
 
     //Update Player Cards
     
     if ([[playerHand objectAtIndex:0] isMemberOfClass:[Card class]]) {  //Check if the Object in the PlayerHand Array is a CARD to update it. 
-        [self.playerCard1 setEnabled:true];
+        [self.playerCard1 setEnabled:true];                             //reactivate the Player card buttons
         Card *card1 = [playerHand objectAtIndex:0];
         [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
     }
@@ -266,9 +276,6 @@ BOOL pu4ReconInt;
     
     
     
-    //WAR RESULTS AFTER BONUSES:
-    NSLog(@"card AI total: %d", cardAiTotal);
-    NSLog(@"card Player total: %d", cardPlayerTotal);
 
     
     //Small Package PowerUp Inverts the values so the smaller will win
@@ -281,7 +288,22 @@ BOOL pu4ReconInt;
         pu1SmallPackageInt = off;
     }
     
+//    ******TROUBLESHOOTING MODE******
+//    Making all AI WIN all the time
+//    ******TROUBLESHOOTING MODE******
+    cardAiTotal += 100;
+//    ******TROUBLESHOOTING MODE******
+//    Making all AI WIN all the time
+//    ******TROUBLESHOOTING MODE******
     
+    
+ 
+    
+    
+    //WAR RESULTS AFTER BONUSES:
+    NSLog(@"card AI total: %d", cardAiTotal);
+    NSLog(@"card Player total: %d", cardPlayerTotal);
+
     
     //Who won and what to do with the inPlay Cards:
     if (cardAiTotal > cardPlayerTotal){ //ai Wins
