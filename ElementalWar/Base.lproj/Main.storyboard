@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -169,22 +169,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPO-7W-ETA">
-                                <rect key="frame" x="300" y="170" width="65" height="30"/>
-                                <state key="normal" title="PU 1 - SP"/>
-                                <connections>
-                                    <action selector="powerUp1SmallPackageButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="zmn-bn-h5M"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uob-VI-0t1">
-                                <rect key="frame" x="299" y="208" width="68" height="30"/>
+                                <rect key="frame" x="279" y="210" width="68" height="30"/>
                                 <state key="normal" title="PU 2 - NE"/>
                                 <connections>
                                     <action selector="powerUp2NegateElementsButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="iuC-sE-6B4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Skm-De-Hyh">
-                                <rect key="frame" x="295" y="242" width="76" height="30"/>
+                                <rect key="frame" x="279" y="242" width="76" height="30"/>
                                 <state key="normal" title="PU 3 - WM"/>
                                 <connections>
                                     <action selector="powerUp3WarMachineButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="cv5-Be-dzn"/>
@@ -215,10 +208,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoe-4C-TfW">
-                                <rect key="frame" x="298" y="271" width="69" height="30"/>
+                                <rect key="frame" x="279" y="271" width="69" height="30"/>
                                 <state key="normal" title="PU 4 - RN"/>
                                 <connections>
                                     <action selector="powerUp4ReconButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="vRu-oW-ugW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPO-7W-ETA">
+                                <rect key="frame" x="279" y="174" width="65" height="30"/>
+                                <state key="normal" title="PU 1 - SP"/>
+                                <connections>
+                                    <action selector="powerUp1SmallPackageButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="zmn-bn-h5M"/>
                                 </connections>
                             </button>
                         </subviews>
