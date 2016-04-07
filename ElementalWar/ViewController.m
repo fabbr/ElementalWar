@@ -128,15 +128,10 @@ BOOL pu4ReconInt;
     self.aiDiscardPileLabel.text = [NSString stringWithFormat:@"%ld", aiDiscardPile.count];
     self.inPlayCounterLabel.text = [NSString stringWithFormat:@"%ld", inPlay.count];
    
-
-    
     //update Ai Card Labels
     [self.aiCardLabel1 setText:@"Card 1"];
     [self.aiCardLabel2 setText:@"Card 2"];
     [self.aiCardLabel3 setText:@"Card 3"];
-
-    
-
     
     //update the inPlay Labels
     if (inPlay.count) {
@@ -145,7 +140,6 @@ BOOL pu4ReconInt;
         [self.aiCardTestLabel setText:[NSString stringWithFormat:@"%d of %d", card4.value, card4.element]];
         [self.playerCardTestLabel setText:[NSString stringWithFormat:@"%d of %d", card5.value, card5.element]];
     }
-
 }
 
 - (IBAction)cardSelection:(id)sender {
@@ -166,21 +160,27 @@ BOOL pu4ReconInt;
     
     [self updateGUI];
     
-    
     //reactivate the Player card buttons
-    [self.playerCard1 setEnabled:true];
-    [self.playerCard2 setEnabled:true];
-    [self.playerCard3 setEnabled:true];
 
     //Update Player Cards
-    Card *card1 = [playerHand objectAtIndex:0];
-    [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
     
-    Card *card2 = [playerHand objectAtIndex:1];
-    [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %d", card2.value, card2.element] forState:UIControlStateNormal];
+    if ([[playerHand objectAtIndex:0] isMemberOfClass:[Card class]]) {  //Check if the Object in the PlayerHand Array is a CARD to update it. 
+        [self.playerCard1 setEnabled:true];
+        Card *card1 = [playerHand objectAtIndex:0];
+        [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
+    }
     
-    Card *card3 = [playerHand objectAtIndex:2];
-    [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %d", card3.value, card3.element] forState:UIControlStateNormal];
+    if ([[playerHand objectAtIndex:1] isMemberOfClass:[Card class]]) {
+        [self.playerCard2 setEnabled:true];
+        Card *card2 = [playerHand objectAtIndex:1];
+        [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %d", card2.value, card2.element] forState:UIControlStateNormal];
+    }
+
+    if ([[playerHand objectAtIndex:2] isMemberOfClass:[Card class]]) {
+        [self.playerCard3 setEnabled:true];
+        Card *card3 = [playerHand objectAtIndex:2];
+        [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %d", card3.value, card3.element] forState:UIControlStateNormal];
+    }
 
     
 }
@@ -223,7 +223,8 @@ BOOL pu4ReconInt;
     int cardPlayerTotal = cardPlayer.value;
     
     //check if Power Up 2 Negate the Elements is active or not to check the Bonuses
-    
+    NSLog(@"*-*-*-*-*-*-*-*-*-*-*");
+
     if (!pu2NegateElementsInt) {
         
         //check Elemental Bonuses
@@ -284,10 +285,10 @@ BOOL pu4ReconInt;
     
     //Who won and what to do with the inPlay Cards:
     if (cardAiTotal > cardPlayerTotal){ //ai Wins
-        NSLog(@"ai Wins");
+        NSLog(@"-> AI Wins");
         [aiDiscardPile addObjectsFromArray:inPlay];
     }else if (cardAiTotal < cardPlayerTotal){//Player Wins
-        NSLog(@"Player Wins");
+        NSLog(@"-> PLAYER Wins");
         [playerDiscardPile addObjectsFromArray:inPlay];
     }else{//WAR
         [self war];
