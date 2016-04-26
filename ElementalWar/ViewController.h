@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+
 @interface ViewController : UIViewController
 
 - (IBAction)startNewGame:(id)sender;
@@ -19,6 +21,7 @@
 //Player card selection
 - (IBAction)cardSelection:(id)sender;
 - (IBAction)nextRoundButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *nextRoundButtonOutlet;
 
 @property (weak, nonatomic) IBOutlet UIButton *playerCard1;
 @property (weak, nonatomic) IBOutlet UIButton *playerCard2;
@@ -50,6 +53,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *aiCardLabel1;
 @property (weak, nonatomic) IBOutlet UILabel *aiCardLabel2;
 @property (weak, nonatomic) IBOutlet UILabel *aiCardLabel3;
+
+
 
 
 @end

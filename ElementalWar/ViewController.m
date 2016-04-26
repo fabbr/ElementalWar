@@ -64,26 +64,20 @@ BOOL pu4ReconInt;
 
 
 - (void) fillPlayersHand{
-
     for (int i = 0; i < playerHand.count ; i++) {
         [self checkForGameOver];
         if ([playerHand objectAtIndex:i] == emptyArray && playerStack.count > 0) {
             [playerHand replaceObjectAtIndex:i withObject:[playerStack lastObject]];
             [playerStack removeLastObject];
         }
-        
     }
 }
 
 -(void)checkForGameOver{
     //player side
-    if (playerStack.count == 0 && playerDiscardPile > 0) {
+    if (playerStack.count == 0 && playerDiscardPile > 0) {  //This will refill the Player Stack with the DiscardPile - No GameOver yet
         playerStack = [NSMutableArray arrayWithArray:playerDiscardPile];
         [playerDiscardPile removeAllObjects];
-//        NSLog(@"end of stack");
-//        NSLog(@"player Stack count is %lu", (unsigned long)playerStack.count);
-//        NSLog(@"player Discard count is %lu", (unsigned long)playerDiscardPile.count);
-
     }
     
 //    Conditions for the Player to Lose the Game - Note that the PlayerHand Array is never empty so we have to compare all the 3 objects to the "emptyArray" NSNumber set previously
@@ -93,18 +87,73 @@ BOOL pu4ReconInt;
             [playerHand objectAtIndex:1] == emptyArray &&
             [playerHand objectAtIndex:2] == emptyArray){
             NSLog(@"💥💥💥💥💥 GAME OVER, YOU LOST  💥💥💥💥💥");
+            
+            
+            
+            //Start of UIAlert View
+            
+            UIAlertController * alert=   [UIAlertController
+                                          alertControllerWithTitle:@"💥💥💥💥💥\n   GAME OVER, YOU LOST  \n💥💥💥💥💥"
+                                          message:@"Reason: Ran out of Cards"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"Click Here to go back to Initial Screen"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                     NSString * storyboardName = @"Main";
+                                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+                                     UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"VC_1"];
+                                     [self presentViewController:vc animated:YES completion:nil];
+                                 }];
+            UIAlertAction* cancel = [UIAlertAction
+                                     actionWithTitle:@"Cancel"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                        [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+            [alert addAction:ok];
+            [alert addAction:cancel];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     
     //ai Side
-    if (aiStack.count == 0 && aiDiscardPile >0) {
+    if (aiStack.count == 0 && aiDiscardPile >0) { //Fill up the AI StackPile with DiscardPile - No GameOver
         aiStack = [NSMutableArray arrayWithArray:aiDiscardPile];
         [aiDiscardPile removeAllObjects];
-        NSLog(@"end of ai Stack");
-    }else if (aiStack.count == 0 && aiDiscardPile.count == 0){
-        NSLog(@"GAME OVER, YOU WIN!");
+        NSLog(@"end of ai Stack  =-=-=-=-=-");
     }
-    
-    
+    if (aiStack.count == 0 && aiDiscardPile.count == 0){
+        NSLog(@"🏅🏅🏅🏅 GAME OVER, YOU WIN  🏅🏅🏅🏅");
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"🏅🏅🏅🏅\n   GAME OVER, YOU WIN  \n🏅🏅🏅🏅"
+                                      message:@"Reason: AI ran out of Cards"
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"Click Here to go back to Initial Screen"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 NSString * storyboardName = @"Main";
+                                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+                                 UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"VC_1"];
+                                 [self presentViewController:vc animated:YES completion:nil];
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+        [alert addAction:ok];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 
@@ -126,6 +175,14 @@ BOOL pu4ReconInt;
     //Fill Player's Hand
     [self fillPlayersHand];
 
+    
+    
+//    NSString * storyboardName = @"Main";
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+//    UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"VC_2"];
+//    [self presentViewController:vc animated:YES completion:nil];
+    
+    
     [self updateGUI];
     
 }
@@ -146,8 +203,8 @@ BOOL pu4ReconInt;
     if (inPlay.count) {
         Card *card4 = [inPlay objectAtIndex:AICARD];
         Card *card5 = [inPlay objectAtIndex:PLAYERCARD];
-        [self.aiCardTestLabel setText:[NSString stringWithFormat:@"%d of %d", card4.value, card4.element]];
-        [self.playerCardTestLabel setText:[NSString stringWithFormat:@"%d of %d", card5.value, card5.element]];
+        [self.aiCardTestLabel setText:[NSString stringWithFormat:@"%d of %@", card4.value, [self updateElementalString:card4]]];
+        [self.playerCardTestLabel setText:[NSString stringWithFormat:@"%d of %@", card5.value, [self updateElementalString:card5]]];
     }
 }
 
@@ -159,41 +216,68 @@ BOOL pu4ReconInt;
 
 - (IBAction)nextRoundButton:(id)sender {
    
+    [self.nextRoundButtonOutlet setTitle:@"Next" forState:UIControlStateNormal];
     //erase War Indicator Label
     [self.warLabel setText:@""];
     
     //reset table cards
     [inPlay removeAllObjects];
-    [self.aiCardTestLabel setText:@"xxx"];
-    [self.playerCardTestLabel setText:@"xxx"];
-    
+    [self.aiCardTestLabel setText:@""];
+    [self.playerCardTestLabel setText:@""];
+    [self.aiCardWarLabel setText:@""];
+    [self.playerCardWarLabel setText:@""];
     [self updateGUI];
     
     //Check for GG
     [self checkForGameOver];
+    
 
     //Update Player Cards
     
     if ([[playerHand objectAtIndex:0] isMemberOfClass:[Card class]]) {  //Check if the Object in the PlayerHand Array is a CARD to update it. 
         [self.playerCard1 setEnabled:true];                             //reactivate the Player card buttons
         Card *card1 = [playerHand objectAtIndex:0];
-        [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element] forState:UIControlStateNormal];
+        [self.playerCard1 setTitle:[NSString stringWithFormat:@"%d of %@", card1.value, [self updateElementalString:card1]] forState:UIControlStateNormal];
     }
     
     if ([[playerHand objectAtIndex:1] isMemberOfClass:[Card class]]) {
         [self.playerCard2 setEnabled:true];
         Card *card2 = [playerHand objectAtIndex:1];
-        [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %d", card2.value, card2.element] forState:UIControlStateNormal];
+        [self.playerCard2 setTitle:[NSString stringWithFormat:@"%d of %@", card2.value, [self updateElementalString:card2]] forState:UIControlStateNormal];
     }
 
     if ([[playerHand objectAtIndex:2] isMemberOfClass:[Card class]]) {
         [self.playerCard3 setEnabled:true];
         Card *card3 = [playerHand objectAtIndex:2];
-        [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %d", card3.value, card3.element] forState:UIControlStateNormal];
+        [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %@", card3.value, [self updateElementalString:card3]] forState:UIControlStateNormal];
     }
 
     
 }
+
+
+-(NSString *)updateElementalString:(Card*)Card{   //To add some graph to the text-based game logic
+    NSString *emoji;
+    switch ([Card element]) {
+        case 0:
+            emoji = @"🔥";
+            break;
+        case 1:
+            emoji = @"🌎";
+            break;
+        case 2:
+            emoji = @"🌊";
+            break;
+        case 3:
+            emoji = @"🌬";
+            break;
+        default:
+            break;
+    }
+    return emoji;
+}
+
+
 
 -(void)checkForWar:(id)pressedButton{
 
@@ -240,25 +324,21 @@ BOOL pu4ReconInt;
         //check Elemental Bonuses
         switch ([cardAi element]) {
             case elementFire:{
-                NSLog(@"0. FIRE");
                 if (cardPlayer.element == elementEarth) cardAiTotal += ELEMENTBONUS;
                 if (cardPlayer.element == elementWater) cardAiTotal -= ELEMENTBONUS;
             }
                 break;
             case elementEarth:{
-                NSLog(@"1. EARTH");
                 if (cardPlayer.element == elementWind) cardAiTotal += ELEMENTBONUS;
                 if (cardPlayer.element == elementFire) cardAiTotal -= ELEMENTBONUS;
             }
                 break;
             case elementWater:{
-                NSLog(@"2. WATER");
                 if (cardPlayer.element == elementFire) cardAiTotal += ELEMENTBONUS;
                 if (cardPlayer.element == elementWind) cardAiTotal -= ELEMENTBONUS;
             }
                 break;
             case elementWind:{
-                NSLog(@"3. WIND");
                 if (cardPlayer.element == elementWater) cardAiTotal += ELEMENTBONUS;
                 if (cardPlayer.element == elementEarth) cardAiTotal -= ELEMENTBONUS;
             }
@@ -289,9 +369,9 @@ BOOL pu4ReconInt;
     }
     
 //    ******TROUBLESHOOTING MODE******
-//    Making all AI WIN all the time
+//    (+) will make AI wins // (-) will make PLAYER wins
 //    ******TROUBLESHOOTING MODE******
-    cardAiTotal += 100;
+    cardAiTotal -= 100;
 //    ******TROUBLESHOOTING MODE******
 //    Making all AI WIN all the time
 //    ******TROUBLESHOOTING MODE******
@@ -345,8 +425,8 @@ BOOL pu4ReconInt;
     Card *cardPlayer = [inPlay lastObject];
     
     //print labels
-     [self.aiCardWarLabel setText:[NSString stringWithFormat:@"%d of %d", cardAi.value, cardAi.element]];
-     [self.playerCardWarLabel setText:[NSString stringWithFormat:@"%d of %d", cardPlayer.value, cardPlayer.element]];
+     [self.aiCardWarLabel setText:[NSString stringWithFormat:@"%d of %@", cardAi.value, [self updateElementalString:cardAi]]];
+     [self.playerCardWarLabel setText:[NSString stringWithFormat:@"%d of %@", cardPlayer.value, [self updateElementalString:cardPlayer]]];
 
     //check for winner or War
     [self checkWinner:cardAi :cardPlayer];
@@ -367,14 +447,39 @@ BOOL pu4ReconInt;
 - (IBAction)powerUp2NegateElementsButton:(id)sender {
     //Change War Label
     [self.warLabel setText:@"Negate Elements Activated"];
-
+    
     pu2NegateElementsInt = on;
     [self.powerUp2NegateElementsOutlet setEnabled:false];
+    
+    
 }
 
 
 
 - (IBAction)powerUp3WarMachineButton:(id)sender {
+    
+    //WarMachine Button check
+    int totalPlayerCards = playerHand.count + playerDiscardPile.count + playerStack.count;
+    if (totalPlayerCards < 5) {
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"Easy there Tiger!"
+                                      message:@"You don't have enough cards to trigger a WAR"
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
     //Change War Label
     [self.warLabel setText:@"WarMachine Activated"];
     
@@ -416,13 +521,13 @@ BOOL pu4ReconInt;
         Card *card1 = [aiStack objectAtIndex:x];
         switch (object) {  //since object was random it will randomly pick a label to update the AiCard
             case 1:
-                [self.aiCardLabel1 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                [self.aiCardLabel1 setText:[NSString stringWithFormat:@"%d of %@", card1.value, [self updateElementalString:card1]]];
                 break;
             case 2:
-                [self.aiCardLabel2 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                [self.aiCardLabel2 setText:[NSString stringWithFormat:@"%d of %@", card1.value, [self updateElementalString:card1]]];
                 break;
             case 3:
-                [self.aiCardLabel3 setText:[NSString stringWithFormat:@"%d of %d", card1.value, card1.element]];
+                [self.aiCardLabel3 setText:[NSString stringWithFormat:@"%d of %@", card1.value, [self updateElementalString:card1]]];
                 break;
             default:
                 break;
