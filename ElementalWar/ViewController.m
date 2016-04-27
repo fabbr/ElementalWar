@@ -28,6 +28,7 @@ NSNumber *emptyArray;
 BOOL pu1SmallPackageInt;
 BOOL pu2NegateElementsInt;
 BOOL pu4ReconInt;
+BOOL warInProgress;
 #define on true
 #define off false
 
@@ -65,7 +66,7 @@ BOOL pu4ReconInt;
 
 - (void) fillPlayersHand{
     for (int i = 0; i < playerHand.count ; i++) {
-        [self checkForGameOver];
+       // [self checkForGameOver];     //**Enable this for the GO Alert to show up automatic. Without it it will only showup after NEXT Button is pressed
         if ([playerHand objectAtIndex:i] == emptyArray && playerStack.count > 0) {
             [playerHand replaceObjectAtIndex:i withObject:[playerStack lastObject]];
             [playerStack removeLastObject];
@@ -87,11 +88,7 @@ BOOL pu4ReconInt;
             [playerHand objectAtIndex:1] == emptyArray &&
             [playerHand objectAtIndex:2] == emptyArray){
             NSLog(@"💥💥💥💥💥 GAME OVER, YOU LOST  💥💥💥💥💥");
-            
-            
-            
             //Start of UIAlert View
-            
             UIAlertController * alert=   [UIAlertController
                                           alertControllerWithTitle:@"💥💥💥💥💥\n   GAME OVER, YOU LOST  \n💥💥💥💥💥"
                                           message:@"Reason: Ran out of Cards"
@@ -153,6 +150,7 @@ BOOL pu4ReconInt;
         [alert addAction:ok];
         [alert addAction:cancel];
         [self presentViewController:alert animated:YES completion:nil];
+        return;
     }
 }
 
@@ -174,15 +172,6 @@ BOOL pu4ReconInt;
     
     //Fill Player's Hand
     [self fillPlayersHand];
-
-    
-    
-//    NSString * storyboardName = @"Main";
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-//    UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"VC_2"];
-//    [self presentViewController:vc animated:YES completion:nil];
-    
-    
     [self updateGUI];
     
 }
@@ -230,7 +219,7 @@ BOOL pu4ReconInt;
     
     //Check for GG
     [self checkForGameOver];
-    
+    [self fillPlayersHand];
 
     //Update Player Cards
     
@@ -251,10 +240,7 @@ BOOL pu4ReconInt;
         Card *card3 = [playerHand objectAtIndex:2];
         [self.playerCard3 setTitle:[NSString stringWithFormat:@"%d of %@", card3.value, [self updateElementalString:card3]] forState:UIControlStateNormal];
     }
-
-    
 }
-
 
 -(NSString *)updateElementalString:(Card*)Card{   //To add some graph to the text-based game logic
     NSString *emoji;
@@ -270,8 +256,6 @@ BOOL pu4ReconInt;
             break;
         case 3:
             emoji = @"🌬";
-            break;
-        default:
             break;
     }
     return emoji;
@@ -317,7 +301,7 @@ BOOL pu4ReconInt;
     int cardPlayerTotal = cardPlayer.value;
     
     //check if Power Up 2 Negate the Elements is active or not to check the Bonuses
-    NSLog(@"*-*-*-*-*-*-*-*-*-*-*");
+    NSLog(@" ");
 
     if (!pu2NegateElementsInt) {
         
@@ -371,7 +355,7 @@ BOOL pu4ReconInt;
 //    ******TROUBLESHOOTING MODE******
 //    (+) will make AI wins // (-) will make PLAYER wins
 //    ******TROUBLESHOOTING MODE******
-    cardAiTotal -= 100;
+//    cardAiTotal -= 100;
 //    ******TROUBLESHOOTING MODE******
 //    Making all AI WIN all the time
 //    ******TROUBLESHOOTING MODE******
@@ -405,22 +389,72 @@ BOOL pu4ReconInt;
 
 -(void) war{
     
+    NSLog(@"WE HAVE WAR");
+    
+    warInProgress = true;
+    
     //indicate the war happened
     [self.warLabel setText:@"WAR!!!"];
     
-    //get 4 cards from ai Stack
-    for (int i=0; i<4; i++) {
-        [self checkForGameOver];
-        [inPlay addObject:[aiStack lastObject]];
-        [aiStack removeLastObject];
+    
+    //Start of War Crash Solution
+    int totalCards = aiStack.count + aiDiscardPile.count;
+    int WarTotal;
+    if (totalCards < 4) {
+        WarTotal = totalCards;
+    }else{
+        WarTotal = 4;
+    }
+    
+    //get cards from ai Stack
+    for (int i=0; i<WarTotal; i++) {
+        //[self checkForGameOver];
+        if (aiStack.count > 0) {
+            [inPlay addObject:[aiStack lastObject]];
+            [aiStack removeLastObject];
+        } else {
+            [inPlay addObject:[aiDiscardPile lastObject]];
+            [aiDiscardPile removeLastObject];
+        }
     }
     Card *cardAi = [inPlay lastObject];
     
-    //get 4 cards from Player Stack
-    for (int i=0; i<4; i++) {
-    [self checkForGameOver];
-    [inPlay addObject:[playerStack lastObject]];
-    [playerStack removeLastObject];
+    
+    
+    totalCards = playerStack.count + playerDiscardPile.count + playerHand.count;
+    if (totalCards < 4) {
+        WarTotal = totalCards;
+    }else{
+        WarTotal = 4;
+    }
+    
+    
+    //get cards from Player Stack
+    for (int i=0; i<WarTotal; i++) {
+    //[self checkForGameOver];
+    
+        // 1st take cards from the PlayerStack and refill with DiscardPile if necessary
+        if (playerStack.count > 0) {
+            [inPlay addObject:[playerStack lastObject]];
+            [playerStack removeLastObject];
+            
+            //Fill in the PlayerStack with PlayerDiscardPile
+            if (playerStack.count == 0 && playerDiscardPile > 0) {  //This will refill the Player Stack with the DiscardPile - No GameOver yet
+                playerStack = [NSMutableArray arrayWithArray:playerDiscardPile];
+                [playerDiscardPile removeAllObjects];
+            }
+        }
+        // 2nd take cards from PlayerHand if necessary
+        else {
+            [inPlay addObject:[playerHand lastObject]];
+            [playerHand removeLastObject];
+        }
+        
+        
+
+    
+
+    
     }
     Card *cardPlayer = [inPlay lastObject];
     
@@ -431,9 +465,10 @@ BOOL pu4ReconInt;
     //check for winner or War
     [self checkWinner:cardAi :cardPlayer];
 
-    
+    warInProgress = false;
 }
 
+#pragma mark - PowerUps
 
 - (IBAction)powerUp1SmallPackageButton:(id)sender {
     
@@ -460,11 +495,11 @@ BOOL pu4ReconInt;
     
     //WarMachine Button check
     int totalPlayerCards = playerHand.count + playerDiscardPile.count + playerStack.count;
-    if (totalPlayerCards < 5) {
+    if (totalPlayerCards < 5 || aiStack.count < 5) {
         
         UIAlertController * alert=   [UIAlertController
                                       alertControllerWithTitle:@"Easy there Tiger!"
-                                      message:@"You don't have enough cards to trigger a WAR"
+                                      message:@"You or the Ai don't have enough cards to trigger a WAR"
                                       preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* ok = [UIAlertAction

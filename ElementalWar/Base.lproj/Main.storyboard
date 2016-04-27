@@ -72,6 +72,16 @@
                                     <action selector="cardSelection:" destination="U0N-lm-GvO" eventType="touchUpInside" id="MyY-yK-g1B"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKl-6J-UCl">
+                                <rect key="frame" x="9" y="396" width="346" height="60"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="CLICK HERE TO SHUFFLE THE DECK!">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextRoundButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="xaa-ZV-SAy"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="P_Deck" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75J-Gk-eiy">
                                 <rect key="frame" x="5" y="568" width="56" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -218,16 +228,6 @@
                                 <state key="normal" title="PU 1 - SP" image="PU_SP_active"/>
                                 <connections>
                                     <action selector="powerUp1SmallPackageButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="zmn-bn-h5M"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKl-6J-UCl">
-                                <rect key="frame" x="9" y="396" width="346" height="60"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="CLICK HERE TO SHUFFLE THE DECK!">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="nextRoundButton:" destination="U0N-lm-GvO" eventType="touchUpInside" id="xaa-ZV-SAy"/>
                                 </connections>
                             </button>
                         </subviews>
