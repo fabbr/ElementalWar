@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483488778.959771"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "-powerUp4ReconButton:"
             landmarkType = "5">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483488778.959771"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
             landmarkName = "-powerUp4ReconButton:"
             landmarkType = "5">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483488778.959771"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "557"
-            endingLineNumber = "557"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "-powerUp4ReconButton:"
             landmarkType = "5">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483488778.959771"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "538"
+            endingLineNumber = "538"
             landmarkName = "-powerUp4ReconButton:"
             landmarkType = "5">
          </BreakpointContent>
@@ -152,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483488778.959771"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "-powerUp4ReconButton:"
             landmarkType = "5">
          </BreakpointContent>
@@ -312,28 +312,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElementalWar/ViewController.m"
-            timestampString = "483487516.999207"
+            timestampString = "483490452.058348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
             landmarkName = "-war"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ElementalWar/ViewController.m"
-            timestampString = "483489170.398715"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
-            landmarkName = "-checkWinner::"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

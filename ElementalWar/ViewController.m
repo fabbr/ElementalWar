@@ -379,12 +379,6 @@ BOOL warInProgress;
     }else{//WAR
         [self war];
     }
-
-    
-    
-    
-    
-    
 }
 
 -(void) war{
@@ -449,13 +443,8 @@ BOOL warInProgress;
             [inPlay addObject:[playerHand lastObject]];
             [playerHand removeLastObject];
         }
-        
-        
-
-    
-
-    
     }
+    
     Card *cardPlayer = [inPlay lastObject];
     
     //print labels
